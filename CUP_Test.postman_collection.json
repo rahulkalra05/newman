@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "ee1cae87-0f27-41ca-8b4e-bd143befff27",
+		"name": "CUP Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1001 - Student registers using a product code",
+			"item": [
+				{
+					"name": "GetAllUserSpaces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5903e011-3b14-4fb9-ae60-0915a1022966",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"dls-org-id\",jsonData.entities[0].dls_org_id);",
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{env}}/lb-auth/accounts/{{account-id}}/ext-users/{{ext-user-id}}/spaces",
+							"protocol": "http",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"lb-auth",
+								"accounts",
+								"{{account-id}}",
+								"ext-users",
+								"{{ext-user-id}}",
+								"spaces"
+							],
+							"query": [
+								{
+									"key": "ext-user-id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TokenForExternalUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "50540517-fabb-4471-b864-e8f497c669ea",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.access_token);",
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ext_user_id\": \"{{ext-user-id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{env}}/lb-auth/auth/{{dls-org-id}}/ext-users/token",
+							"protocol": "http",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"lb-auth",
+								"auth",
+								"{{dls-org-id}}",
+								"ext-users",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GETProductDetails",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2a0229db-fd9b-4540-a53e-9caeb3311f76",
+								"exec": [
+									"pm.test(\"response is ok\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{env}}/lb-auth/accounts/{{account-id}}/products/{{ext-product-id}}",
+							"protocol": "http",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"lb-auth",
+								"accounts",
+								"{{account-id}}",
+								"products",
+								"{{ext-product-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "JoinSpaceWithProductCode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b28c26e3-42d2-436c-9e9a-52020c59977a",
+								"exec": [
+									"pm.test(\"response is ok\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ext_user_id\": \"{{ext-user-id}}\",\r\n  \"ext_role\": \"student\",\r\n  \"productcode\": \"{{ext-product-id}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://{{env}}/lb-auth/accounts/{{account-id}}/student/provision-spaces",
+							"protocol": "http",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"lb-auth",
+								"accounts",
+								"{{account-id}}",
+								"student",
+								"provision-spaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllUserSpaces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5903e011-3b14-4fb9-ae60-0915a1022966",
+								"exec": [
+									"pm.test(\"response is ok\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{env}}/lb-auth/accounts/{{account-id}}/ext-users/{{ext-user-id}}/spaces",
+							"protocol": "http",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"lb-auth",
+								"accounts",
+								"{{account-id}}",
+								"ext-users",
+								"{{ext-user-id}}",
+								"spaces"
+							],
+							"query": [
+								{
+									"key": "ext-user-id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetListOfAllProductOfAUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0d264364-a27a-4c35-b30b-50357c09ecc4",
+								"exec": [
+									"pm.test(\"response is ok\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{env}}/lb-product/accounts/{{account-id}}/ext-users/{{ext-user-id}}/entitlements?productDetails=false&bundleDetails=false",
+							"protocol": "http",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"lb-product",
+								"accounts",
+								"{{account-id}}",
+								"ext-users",
+								"{{ext-user-id}}",
+								"entitlements"
+							],
+							"query": [
+								{
+									"key": "productDetails",
+									"value": "false"
+								},
+								{
+									"key": "bundleDetails",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "84669820-bf18-41a5-9478-ca1eba196599",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "34cd8220-fdd8-400c-a3a0-61051f180259",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
