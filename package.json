@@ -1,14 +1,14 @@
 {
   "name": "test",
   "version": "4.5.7",
-  "description": "NA",
-  "main": "index.js",
+  "description": "This json contains list of all the dependencies to run a postman collection using newman",
+  "main": "NA",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "newman run CUP_Test.postman_collection.json -e rahul-cup-demo.postman_environment.json"
   },
-  "author": "",
+  "author": "Rahul Kalra",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "newman": "^4.5.7"
   }
 }
